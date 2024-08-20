@@ -6,6 +6,8 @@
     <title>Hypothesis Test for Means with t-Distribution</title>
     <!-- Load jStat library from CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.4/jstat.min.js"></script>
+    <!-- Optional: Add MathJax for better math rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -76,10 +78,10 @@
                     <option value="two">Two Tail Test</option>
                 </select>
             </p>
-            <p>Population Mean (\( \mu_0 \)) (Null Hypothesis): <input type="text" id="population_mean" size="10" required></p>
-            <p>Sample Mean (\( \bar{x} \)): <input type="text" id="sample_mean" size="10" required></p>
+            <p>Population Mean (\(\mu_0\)) (Null Hypothesis): <input type="text" id="population_mean" size="10" required></p>
+            <p>Sample Mean (\(\bar{x}\)): <input type="text" id="sample_mean" size="10" required></p>
             <p>Sample Standard Deviation (s): <input type="text" id="sample_sd" size="10" required></p>
-            <p>Significance Level (\( \alpha \)): <input type="text" id="alpha" size="10" required></p>
+            <p>Significance Level (\(\alpha\)): <input type="text" id="alpha" size="10" required></p>
             <p>Sample Size (n): <input type="text" id="sample_size" size="10" required></p>
             <button type="button" onclick="performHypothesisTest()">Perform Hypothesis Test</button>
         </form>
