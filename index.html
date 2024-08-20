@@ -96,4 +96,66 @@
             </p>
             <p>Population Mean (\(\mu_0\)) (Null Hypothesis): <input type="text" id="population_mean" size="10" required></p>
             <p>Sample Mean (\(\bar{x}\)): <input type="text" id="sample_mean" size="10" required></p>
-            <
+            <p>Sample Standard Deviation (s): <input type="text" id="sample_sd" size="10" required></p>
+            <p>Significance Level (\(\alpha\)): <input type="text" id="alpha" size="10" required></p>
+            <p>Sample Size (n): <input type="text" id="sample_size" size="10" required></p>
+            <button type="button" onclick="performHypothesisTest()">Perform Hypothesis Test</button>
+        </form>
+        <p id="test_statistic_result"></p>
+        <p id="p_value_result"></p>
+        <p id="critical_values_result"></p>
+    </section>
+
+    <script>
+        function performHypothesisTest() {
+            var testType = document.getElementById("test_type").value;
+            var populationMean = parseFloat(document.getElementById("population_mean").value);
+            var sampleMean = parseFloat(document.getElementById("sample_mean").value);
+            var sampleSd = parseFloat(document.getElementById("sample_sd").value);
+            var alpha = parseFloat(document.getElementById("alpha").value);
+            var sampleSize = parseInt(document.getElementById("sample_size").value);
+
+            // Validate inputs
+            if (isNaN(populationMean) || isNaN(sampleMean) || isNaN(sampleSd) || isNaN(alpha) || isNaN(sampleSize) || sampleSize <= 0) {
+                alert("Please ensure all inputs are valid numbers and sample size is greater than 0.");
+                return;
+            }
+
+            // Calculate the test statistic
+            var testStatistic = (sampleMean - populationMean) / (sampleSd / Math.sqrt(sampleSize));
+            var df = sampleSize - 1;
+
+            var criticalValueLower, criticalValueUpper;
+            var pValue;
+
+            try {
+                if (testType === "left") {
+                    criticalValueLower = jStat.studentT.inv(alpha, df);
+                    pValue = jStat.studentT.cdf(testStatistic, df);
+                    criticalValueUpper = null;
+                } else if (testType === "right") {
+                    criticalValueUpper = jStat.studentT.inv(1 - alpha, df);
+                    pValue = 1 - jStat.studentT.cdf(testStatistic, df);
+                    criticalValueLower = null;
+                } else { // two tail
+                    criticalValueLower = jStat.studentT.inv(alpha / 2, df);
+                    criticalValueUpper = jStat.studentT.inv(1 - alpha / 2, df);
+                    pValue = 2 * Math.min(jStat.studentT.cdf(testStatistic, df), 1 - jStat.studentT.cdf(testStatistic, df));
+                }
+
+                // Display results
+                document.getElementById("test_statistic_result").innerHTML = "Test Statistic: " + testStatistic.toFixed(4);
+                document.getElementById("p_value_result").innerHTML = "P-value: " + pValue.toFixed(4);
+                if (testType === "two") {
+                    document.getElementById("critical_values_result").innerHTML = "Critical Values: [" + criticalValueLower.toFixed(4) + ", " + criticalValueUpper.toFixed(4) + "]";
+                } else {
+                    document.getElementById("critical_values_result").innerHTML = "Critical Value: " + (testType === "left" ? criticalValueLower.toFixed(4) : criticalValueUpper.toFixed(4));
+                }
+            } catch (e) {
+                console.error("Error in performing the hypothesis test:", e);
+                alert("An error occurred while performing the hypothesis test. Please check the input values and try again.");
+            }
+        }
+    </script>
+</body>
+</html>
