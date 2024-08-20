@@ -6,6 +6,8 @@
     <title>Hypothesis Test for Means with t-Distribution</title>
     <!-- Load jStat library from CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.4/jstat.min.js"></script>
+    <!-- Load MathJax library from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -137,6 +139,9 @@
                 console.error("Error in performing the hypothesis test:", e);
                 alert("An error occurred while performing the hypothesis test. Please check the input values and try again.");
             }
+
+            // Render MathJax
+            MathJax.typeset();
         }
     </script>
 </body>
