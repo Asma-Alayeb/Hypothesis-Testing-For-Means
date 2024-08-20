@@ -114,17 +114,17 @@
 
             try {
                 if (testType === "left") {
-                    criticalValueLower = jStat.studentT.inv(alpha, df);
-                    pValue = jStat.studentT.cdf(testStatistic, df);
+                    criticalValueLower = jStat.studentt.inv(alpha, df);
+                    pValue = jStat.studentt.cdf(testStatistic, df);
                     criticalValueUpper = null;
                 } else if (testType === "right") {
-                    criticalValueUpper = jStat.studentT.inv(1 - alpha, df);
-                    pValue = 1 - jStat.studentT.cdf(testStatistic, df);
+                    criticalValueUpper = jStat.studentt.inv(1 - alpha, df);
+                    pValue = 1 - jStat.studentt.cdf(testStatistic, df);
                     criticalValueLower = null;
                 } else { // two tail
-                    criticalValueLower = jStat.studentT.inv(alpha / 2, df);
-                    criticalValueUpper = jStat.studentT.inv(1 - alpha / 2, df);
-                    pValue = 2 * Math.min(jStat.studentT.cdf(testStatistic, df), 1 - jStat.studentT.cdf(testStatistic, df));
+                    criticalValueLower = jStat.studentt.inv(alpha / 2, df);
+                    criticalValueUpper = jStat.studentt.inv(1 - alpha / 2, df);
+                    pValue = 2 * Math.min(jStat.studentt.cdf(testStatistic, df), 1 - jStat.studentt.cdf(testStatistic, df));
                 }
 
                 // Display results
