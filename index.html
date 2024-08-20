@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hypothesis Test for Means</title>
+    <title>Hypothesis Test for Means with t-Distribution</title>
+    <!-- Load jStat library from CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.4/jstat.min.js"></script>
     <style>
         body {
@@ -75,7 +76,7 @@
 </head>
 <body>
     <header>
-        <h1>Hypothesis Test for Means</h1>
+        <h1>Hypothesis Test for Means with t-Distribution</h1>
     </header>
 
     <nav>
@@ -95,67 +96,4 @@
             </p>
             <p>Population Mean (\(\mu_0\)) (Null Hypothesis): <input type="text" id="population_mean" size="10" required></p>
             <p>Sample Mean (\(\bar{x}\)): <input type="text" id="sample_mean" size="10" required></p>
-            <p>Sample Standard Deviation (s): <input type="text" id="sample_sd" size="10" required></p>
-            <p>Significance Level (\(\alpha\)): <input type="text" id="alpha" size="10" required></p>
-            <p>Sample Size (n): <input type="text" id="sample_size" size="10" required></p>
-            <button type="button" onclick="performHypothesisTest()">Perform Hypothesis Test</button>
-        </form>
-        <p id="test_statistic_result"></p>
-        <p id="p_value_result"></p>
-        <p id="critical_values_result"></p>
-        <p id="decision_result"></p>
-    </section>
-
-    <script>
-        function performHypothesisTest() {
-            var testType = document.getElementById("test_type").value;
-            var populationMean = parseFloat(document.getElementById("population_mean").value);
-            var sampleMean = parseFloat(document.getElementById("sample_mean").value);
-            var sampleSd = parseFloat(document.getElementById("sample_sd").value);
-            var alpha = parseFloat(document.getElementById("alpha").value);
-            var sampleSize = parseInt(document.getElementById("sample_size").value);
-
-            // Calculate the test statistic
-            var testStatistic = (sampleMean - populationMean) / (sampleSd / Math.sqrt(sampleSize));
-
-            // Calculate the critical values and p-value
-            var criticalValueLower, criticalValueUpper;
-            var pValue;
-
-            if (testType === "left") {
-                criticalValueLower = jStat.normal.inv(alpha, 0, 1);
-                pValue = jStat.normal.cdf(testStatistic, 0, 1);
-                criticalValueUpper = null; // Not applicable
-            } else if (testType === "right") {
-                criticalValueUpper = jStat.normal.inv(1 - alpha, 0, 1);
-                pValue = 1 - jStat.normal.cdf(testStatistic, 0, 1);
-                criticalValueLower = null; // Not applicable
-            } else { // two tail
-                criticalValueLower = jStat.normal.inv(alpha / 2, 0, 1);
-                criticalValueUpper = jStat.normal.inv(1 - alpha / 2, 0, 1);
-                pValue = 2 * Math.min(jStat.normal.cdf(testStatistic, 0, 1), 1 - jStat.normal.cdf(testStatistic, 0, 1));
-            }
-
-            // Decision
-            var decision;
-            if (testType === "left") {
-                decision = (testStatistic < criticalValueLower) ? "Reject the null hypothesis." : "Fail to reject the null hypothesis.";
-            } else if (testType === "right") {
-                decision = (testStatistic > criticalValueUpper) ? "Reject the null hypothesis." : "Fail to reject the null hypothesis.";
-            } else { // two tail
-                decision = (Math.abs(testStatistic) > criticalValueUpper) ? "Reject the null hypothesis." : "Fail to reject the null hypothesis.";
-            }
-
-            // Display results
-            document.getElementById("test_statistic_result").innerHTML = "Test Statistic: " + testStatistic.toFixed(4);
-            document.getElementById("p_value_result").innerHTML = "P-value: " + pValue.toFixed(4);
-            if (testType === "two") {
-                document.getElementById("critical_values_result").innerHTML = "Critical Values: [" + criticalValueLower.toFixed(4) + ", " + criticalValueUpper.toFixed(4) + "]";
-            } else {
-                document.getElementById("critical_values_result").innerHTML = "Critical Value: " + (testType === "left" ? criticalValueLower.toFixed(4) : criticalValueUpper.toFixed(4));
-            }
-            document.getElementById("decision_result").innerHTML = "Decision: " + decision;
-        }
-    </script>
-</body>
-</html>
+            <
